@@ -1,17 +1,18 @@
-import { Movie } from './movie.schema';
+import { Users } from './users.schema';
+import { UsersService } from './users.service';
+
 import { getModelToken } from '@nestjs/mongoose';
 import { Test, TestingModule } from '@nestjs/testing';
-import { MovieService } from './movie.service';
 
-describe('MovieService', () => {
-  let service: MovieService;
+describe('UsersService', () => {
+  let service: UsersService;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      providers: [MovieService, { provide: getModelToken(Movie.name), useValue: jest.fn()}],
+      providers: [UsersService, { provide: getModelToken(Users.name), useValue: jest.fn()}],
     }).compile();
 
-    service = module.get<MovieService>(MovieService);
+    service = module.get<UsersService>(UsersService);
   });
 
   it('should be defined', () => {

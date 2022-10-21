@@ -5,7 +5,7 @@ import { Body, Controller, Post, Request } from '@nestjs/common';
 
 
 @Controller('')
-export class UserController {
+export class UsersController {
   constructor(private readonly userService: UsersService) {}
 
   @Post('signup')
