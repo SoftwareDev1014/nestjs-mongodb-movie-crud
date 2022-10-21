@@ -1,8 +1,11 @@
-import { Module } from '@nestjs/common';
+import { MovieModule } from './movie/movie.module';
+import { MiddlewareConsumer, Module, RequestMethod } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
+import { UsersModule } from './users/users.module';
+import { AuthMiddleware } from './middlewares/authmiddleware';
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -14,14 +17,22 @@ import { AppService } from './app.service';
       imports: [ConfigModule],
       inject: [ConfigService],
       useFactory: async (configService: ConfigService) => ({
-        useCreateIndex: true,
         useNewUrlParser: true,
-        useFindAndModify: false,
-        uri: "mongodb+srv://linkdin:kNKYNNQq4A7toxNO@cluster0.sgpw6.mongodb.net",
+        uri: configService.get<string>('MONGO_URI'),
       }),
     }),
+    MovieModule,
+    UsersModule
   ],
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule {}
+export class AppModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer
+    .apply(AuthMiddleware)
+    .exclude({ path: 'signup', method: RequestMethod.POST })
+    .exclude({ path: 'signin', method: RequestMethod.POST })
+    .forRoutes({ path: '*', method: RequestMethod.ALL });
+  }
+}
