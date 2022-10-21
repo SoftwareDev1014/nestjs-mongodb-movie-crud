@@ -4,6 +4,9 @@ import { Request, Response, NextFunction } from 'express';
 @Injectable()
 export class AuthMiddleware implements NestMiddleware {
   async use(req: Request, res: Response, next: NextFunction) {
+    console.log("path", req.path)
+    const excludePaths = ["/", "","/signin", "/signup"]
+    if(excludePaths.indexOf(req.path)) next();
     try {
         const token: string = req.headers['authorization'];
         var jwt = require('jsonwebtoken');
