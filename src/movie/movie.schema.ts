@@ -18,7 +18,7 @@ export class Movie extends Document {
   @Prop({ required: true, trim: true })
   description: string;
 
-  @Prop({ required: true, trim: true, ref: "Users", type:MongooseSchema.Types.ObjectId, })
+  @Prop({ required: false, trim: true, ref: "Users", type:MongooseSchema.Types.ObjectId, })
   user: Users;
 
   @Prop({ required: false, trim: true, default:0 })

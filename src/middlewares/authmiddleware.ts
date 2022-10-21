@@ -5,8 +5,8 @@ import { Request, Response, NextFunction } from 'express';
 export class AuthMiddleware implements NestMiddleware {
   async use(req: Request, res: Response, next: NextFunction) {
     console.log("path", req.path)
-    const excludePaths = ["/", "","/signin", "/signup"]
-    if(excludePaths.indexOf(req.path)) return next();
+    // const excludePaths = ["/", "","/signin", "/signup"]
+    // if(excludePaths.indexOf(req.path)) return next();
     try {
         const token: string = req.headers['authorization'];
         var jwt = require('jsonwebtoken');

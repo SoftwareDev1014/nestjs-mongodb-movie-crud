@@ -17,6 +17,7 @@ export class MovieService {
     }
     async create(info: CreateMovieDto): Promise<MovieDocument>{
         const movie = await this.movieModel.create(info)
+        console.log({movie})
         return movie.save()
     }    
     async update(id: string, info: UpdateMovieDto): Promise<MovieDocument>{

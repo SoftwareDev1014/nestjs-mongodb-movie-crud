@@ -20,9 +20,12 @@ export class MovieController{
             const user = req.headers["user"]
             // console.log("user", user)
             body.user= user._id
+            console.log("test body", {body})
             const movie = await this.movieService.create(body);
+            console.log({movie})
             return movie
         } catch (error) {
+            console.log({error})
             return error
         }
     }

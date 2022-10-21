@@ -23,6 +23,10 @@ export class UsersService {
         return user;
     }
     async singUp(info: UserDto): Promise<UserDto>{
+        const userCheck = await this.userModel.findOne({email: info.email});
+        if(userCheck){
+            throw new BadRequestException({errors:[{error:"Email has taken account already"}], message:"Email has taken account already"})
+        }
         var bcrypt = require('bcryptjs');
         info.password = bcrypt.hashSync(info.password);
         const user = await this.userModel.create(info);
